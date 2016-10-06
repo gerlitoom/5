@@ -25,7 +25,11 @@
 		
 		saveNote($_POST["note"], $_POST["color"]);
 	}
+	$notes = getAllNotes();
 	
+	//echo "<pre>";
+	//var_dump($notes);
+	//echo "<pre>";
 ?>
 
 <h1>Data</h1>
@@ -38,7 +42,42 @@
 <form method="POST">
 <textarea name="note" rows="4" cols="50" value="text"></textarea>
 <br>
-<input name="color" type="color" style="width: 370px; height: 30px">
+<input name="color" type="color" style="width: 70px; height: 30px" value="#FFFCC2">
 <br><br>
  <input type="submit">
  </form>
+ 
+ <h2>Arhiiv</h2>
+ 
+ <?php
+ 
+	foreach ($notes as $n) {
+		$style = "width:100px; min-height:100px; border: 1px solid grey; background-color:".$n->noteColor.";";
+		echo "<p style='  ".$style."  '>".$n->note."</p>";
+	}
+ 
+ ?>
+ 
+ <h2 style="clear:both;">Tabel</h2>
+ <?php
+	
+	$html = "<table>";
+	
+		$html .= "<tr>";
+			$html .= "<th>id</th>";
+			$html .= "<th>märkus</th>";
+			$html .= "<th>värv</th>";
+		$html .= "</tr>";
+	
+	foreach ($notes as $note) {	
+		$html .= "<tr>";
+			$html .= "<td>".$note->id."</td>";
+			$html .= "<td>".$note->note."</td>";
+			$html .= "<td>".$note->noteColor."</td>";
+		$html .= "</tr>";
+	}
+	
+	$html .= "</table>";
+	echo $html;
+ 
+ ?>
