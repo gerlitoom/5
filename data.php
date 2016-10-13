@@ -14,16 +14,18 @@
 		session_destroy();
 		
 		header("Location: login.php");
-		
+		exit();
 	}
+	
+	
 	
 	if (isset($_POST["note"]) &&
 		isset($_POST["color"]) &&
 		!empty($_POST["note"]) &&
 		!empty($_POST["color"])
 	) {
-		
-		saveNote($_POST["note"], $_POST["color"]);
+		$note = cleanInput($_POST["note"]);
+		saveNote($note, $_POST["color"]);
 	}
 	$notes = getAllNotes();
 	
