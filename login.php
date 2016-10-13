@@ -10,56 +10,47 @@
 	//echo "<br>";
 	//var_dump($_POST);
 		
-	$signupEmailError = "";
-	$signupEmail = "";
-	
-
-	if (isset ($_POST["signupEmail"])) {
-		
-		
-		if (empty ($_POST["signupEmail"])) {
-			
-			
-			$signupEmailError = "See v‰li on kohustuslik";
-			
-		} else {
-				
-			
-			$signupEmail = $_POST["signupEmail"];
+	$signupUsername = "";
+	$signupUsernameError="";
+		if(isset ($_POST["signupUsername"])) {
+			if (empty ($_POST["signupUsername"])){
+				$signupUsernameError="See v√§li on kohustuslik";
+			} else {
+				$signupUsername=$_POST["signupUsername"];
+			}
 		}
 		
-	}
+	$signupEmail = "";	
+	$signupEmailError = "";
+		if (isset ($_POST["signupEmail"])) {
+			if (empty ($_POST["signupEmail"])) {	
+				$signupEmailError = "See v√§li on kohustuslik";	
+			} else {
+				$signupEmail = $_POST["signupEmail"];
+			}
+		}
 	
 	$signupPasswordError = "";
-	
-	
-	if (isset ($_POST["signupPassword"])) {
-		
-		
-		if (empty ($_POST["signupPassword"])) {
-			
-			
-			$signupPasswordError = "See v‰li on kohustuslik";
-			
-		} else {
-			
-			
-			if (strlen ($_POST["signupPassword"]) < 8 ) {
-				
-				$signupPasswordError = "Parool peab olema v‰hemalt 8 tm pikk";
-				
+		if (isset ($_POST["signupPassword"])) {
+			if (empty ($_POST["signupPassword"])) {
+			$signupPasswordError = "See v√§li on kohustuslik";
+			} else {
+			if (strlen ($_POST["signupPassword"]) < 8 ) {	
+				$signupPasswordError = "Parool peab olema v√§hemalt 8 tm pikk";
+				}
 			}
-			
 		}
-		
-	}
 	
+	$loginEmail = "";
+		if (isset ($_POST["loginEmail"])) {
+			if (!empty ($_POST["loginEmail"])) {	
+				$loginEmail = $_POST["loginEmail"];
+			}
+		}
 	
 	$gender = "";
 	if(isset($_POST["gender"])) {
-		if(!empty($_POST["gender"])){
-			
-			
+		if(!empty($_POST["gender"])){	
 			$gender = $_POST["gender"];
 		}
 	}
@@ -77,7 +68,7 @@
 		
 		$password = hash("sha512", $_POST["signupPassword"]);
 		
-		echo "r‰si ".$password."<br>";
+		echo "r√§si ".$password."<br>";
 		
 		
 		signup($signupEmail, $password);
@@ -108,8 +99,8 @@
 		<p style="color:red;"><?php echo $notice; ?></p>
 		<form method="POST">
 			
-			<label>E-post</label><br>
-			<input name="loginEmail" type="email">
+			<label>Email</label><br>
+			<input name="loginEmail" type="email" value="<?php echo $loginEmail ?>">
 			
 			<br><br>
 			
@@ -118,16 +109,43 @@
 						
 			<br><br>
 			
-			<input type="submit">
+			<input type="submit"><br><br>
 		
 		</form>
 		
-		<h1>Loo kasutaja</h1>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script>
+	$(document).ready(function(){
+		$("#flip").click(function(){
+			$("#panel").slideToggle("slow");
+		});
+	});
+	</script>
+
+	<style>
+	#panel, #flip {
+		padding: 5px;
+		text-align: left;
+		background-color: #FFFFFF;
+		width:290px;
+		
+		
+	}
+
+	#panel {
+		display: none;
+		width:200px; 
+	}
+	</style>
+		
+		<div id="flip"><h2>Loo kasutaja</h2></div>
+		<div id="panel">
 		
 		<form method="POST">
 			
-			<label>E-post</label><br>
-			<input name="signupEmail" type="email" value="<?=$signupEmail;?>" > <?php echo $signupEmailError; ?>
+			<input placeholder="Kasjutajanimi" name="signupUsername" type="username" value="<?php echo $signupUsername ?>"><?php echo $signupUsernameError; ?><br><br>
+			
+			<input placeholder="Email" name="signupEmail" type="email" value="<?=$signupEmail;?>" > <?php echo $signupEmailError; ?>
 			
 			<br><br>
 			
@@ -135,27 +153,25 @@
 						
 			<br><br>
 			
-			<?php if ($gender == "male") { ?>
-				<input type="radio" name="gender" value="male" checked > Mees<br>
-			<?php } else { ?>
-				<input type="radio" name="gender" value="male"> Mees<br>
-			<?php } ?>
-			
-			<?php if ($gender == "female") { ?>
+				<?php if ($gender == "female") { ?>
 				<input type="radio" name="gender" value="female" checked > Naine<br>
 			<?php } else { ?>
 				<input type="radio" name="gender" value="female"> Naine<br>
 			<?php } ?>
+		
 			
-			<?php if ($gender == "other") { ?>
-				<input type="radio" name="gender" value="other" checked > Muu<br>
+			
+			<?php if ($gender == "male") { ?>
+				<input type="radio" name="gender" value="male" checked > Mees<br>
 			<?php } else { ?>
-				<input type="radio" name="gender" value="other"> Muu<br>
+				<input type="radio" name="gender" value="male"> Mees<br><br>
 			<?php } ?>
 			
+		
 			<input type="submit" value="Loo kasutaja">
 		
 		</form>
+		</div>
 
 	</body>
 </html>
