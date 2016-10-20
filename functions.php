@@ -22,7 +22,7 @@
 		
 		$stmt->bind_param("ss", $email, $password );
 		if ( $stmt->execute() ) {
-			echo "salvestamine Ãµnnestus";	
+			echo "salvestamine õnnestus";	
 		} else {	
 			echo "ERROR ".$stmt->error;
 		}
@@ -84,7 +84,7 @@
 		
 		$stmt->bind_param("ss", $note, $color );
 		if ( $stmt->execute() ) {
-			echo "salvestamine Ãµnnestus";	
+			echo "salvestamine õnnestus";	
 		} else {	
 			echo "ERROR ".$stmt->error;
 		}

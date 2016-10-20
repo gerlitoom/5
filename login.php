@@ -10,43 +10,19 @@
 	//echo "<br>";
 	//var_dump($_POST);
 		
-	$signupUsername = "";
-	$signupUsernameError="";
-		if(isset ($_POST["signupUsername"])) {
+$signupUsernameError="";
+	$signupUsername="";
+	
+		if(isset ($_POST["signupUsername"]))
+		
 			if (empty ($_POST["signupUsername"])){
-				$signupUsernameError="See v√§li on kohustuslik";
-			} else {
+				$signupUsernameError="See vali on kohustuslik";
+			}
+			else {
 				$signupUsername=$_POST["signupUsername"];
 			}
-		}
-		
-	$signupEmail = "";	
-	$signupEmailError = "";
-		if (isset ($_POST["signupEmail"])) {
-			if (empty ($_POST["signupEmail"])) {	
-				$signupEmailError = "See v√§li on kohustuslik";	
-			} else {
-				$signupEmail = $_POST["signupEmail"];
-			}
-		}
-	
-	$signupPasswordError = "";
-		if (isset ($_POST["signupPassword"])) {
-			if (empty ($_POST["signupPassword"])) {
-			$signupPasswordError = "See v√§li on kohustuslik";
-			} else {
-			if (strlen ($_POST["signupPassword"]) < 8 ) {	
-				$signupPasswordError = "Parool peab olema v√§hemalt 8 tm pikk";
-				}
-			}
-		}
-	
-	$loginEmail = "";
-		if (isset ($_POST["loginEmail"])) {
-			if (!empty ($_POST["loginEmail"])) {	
-				$loginEmail = $_POST["loginEmail"];
-			}
-		}
+	$signupEmailError="";
+	$signupEmail = "";
 	
 	$gender = "";
 	if(isset($_POST["gender"])) {
@@ -55,38 +31,60 @@
 		}
 	}
 	
-	if ( isset($_POST["signupEmail"]) &&
-		 isset($_POST["signupPassword"]) &&
-		 $signupEmailError == "" && 
-		 empty($signupPasswordError)
-	   ) {
+	if(isset ($_POST["signupEmail"]))
 		
+		if (empty ($_POST["signupEmail"])){
+			$signupEmailError="See vali on kohustuslik";
+		}
+		else {
+			$signupEmail=$_POST["signupEmail"];
+		}
+		
+	$signupPasswordError="";
+	
+	
+	if(isset ($_POST["signupPassword"])) {
+		
+		if (empty ($_POST["signupPassword"])){
+			$signupPasswordError="See vali on kohustuslik";
+		}	
+	else
+		if(strlen($_POST["signupPassword"]) < 8) {
+			$signupPasswordError="Parool pole piisavalt pikk";
+		}
+		
+	if (isset($_POST["signupUsername"]) &&
+		isset($_POST["signupEmail"]) &&
+		isset($_POST["signupPassword"]) &&
+		$signupUsernameError == "" &&
+		$signupEmailError == "" &&
+		$signupPasswordError == ""
+		) {
 		
 		echo "salvestan...<br>";
+		echo "kasutaja ".$signupUsername."<br>";
 		echo "email ".$signupEmail."<br>";
 		echo "parool ".$_POST["signupPassword"]."<br>";
-		
 		$password = hash("sha512", $_POST["signupPassword"]);
 		
-		echo "r√§si ".$password."<br>";
+		echo "r‰si ".$password."<br>";
 		
+		signup($signupUsername, $signupEmail, $password);
 		
-		signup($signupEmail, $password);
-		
-	}	
-	
-	
-	$notice = "";
-	
-	if (	isset($_POST["loginEmail"]) && 
-			isset($_POST["loginPassword"]) && 
-			!empty($_POST["loginEmail"]) && 
-			!empty($_POST["loginPassword"]) 
-	) {
-		$notice = login($_POST["loginEmail"], $_POST["loginPassword"]);
+		}
 		
 	}
 	
+	$notice = "";
+		// mılemad login vormi v‰ljad on t‰idetud
+		if (	isset($_POST["loginEmail"]) && 
+				isset($_POST["loginPassword"]) && 
+				!empty($_POST["loginEmail"]) && 
+				!empty($_POST["loginPassword"]) 
+		) {
+			$notice = login($_POST["loginEmail"], $_POST["loginPassword"]);
+			
+		}
 ?>
 <!DOCTYPE html>
 <html>
@@ -100,7 +98,7 @@
 		<form method="POST">
 			
 			<label>Email</label><br>
-			<input name="loginEmail" type="email" value="<?php echo $loginEmail ?>">
+			<input name="loginEmail" type="email">
 			
 			<br><br>
 			
@@ -109,37 +107,11 @@
 						
 			<br><br>
 			
-			<input type="submit"><br><br>
+			<input type="submit" value="Logi sisse"><br><br><br>
 		
 		</form>
 		
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-	<script>
-	$(document).ready(function(){
-		$("#flip").click(function(){
-			$("#panel").slideToggle("slow");
-		});
-	});
-	</script>
-
-	<style>
-	#panel, #flip {
-		padding: 5px;
-		text-align: left;
-		background-color: #FFFFFF;
-		width:290px;
-		
-		
-	}
-
-	#panel {
-		display: none;
-		width:200px; 
-	}
-	</style>
-		
-		<div id="flip"><h2>Loo kasutaja</h2></div>
-		<div id="panel">
+		<h2>Loo kasutaja</h2><br>
 		
 		<form method="POST">
 			
@@ -153,25 +125,25 @@
 						
 			<br><br>
 			
-				<?php if ($gender == "female") { ?>
+						<?php if ($gender == "female") { ?>
 				<input type="radio" name="gender" value="female" checked > Naine<br>
 			<?php } else { ?>
 				<input type="radio" name="gender" value="female"> Naine<br>
 			<?php } ?>
-		
-			
 			
 			<?php if ($gender == "male") { ?>
 				<input type="radio" name="gender" value="male" checked > Mees<br>
 			<?php } else { ?>
-				<input type="radio" name="gender" value="male"> Mees<br><br>
-			<?php } ?>
+				<input type="radio" name="gender" value="male"> Mees<br>
+			<?php } ?><br>
 			
-		
+
+			
+
+			
 			<input type="submit" value="Loo kasutaja">
 		
 		</form>
-		</div>
 
 	</body>
 </html>

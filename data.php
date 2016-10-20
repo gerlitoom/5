@@ -40,6 +40,7 @@
 	<a href="?logout=1">Logi välja</a>
 </p>
 
+<h2>Märkmed</h2>
 <form method="POST">
 <textarea name="note" rows="4" cols="50" value="text"></textarea>
 <br>
@@ -47,14 +48,13 @@
 <br><br>
  <input type="submit">
  </form>
- <br><br>
  
- <h2>Kommentaarid</h2>
+ <h2>Arhiiv</h2>
  
  <?php
  
 	foreach ($notes as $n) {
-		$style = "width:370px; min-height:50px; border: 1px solid grey; background-color:".$n->noteColor.";";
+		$style = "width:100px; min-height:100px; border: 1px solid grey; background-color:".$n->noteColor.";";
 		echo "<p style='  ".$style."  '>".$n->note."</p>";
 	}
  
